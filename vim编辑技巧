@@ -1,0 +1,181 @@
+vim编辑技巧
+命令模式操作
+	Home 键 或 ^、数字 0          跳转到行首
+	End 键 或“$”键 		 跳转到行尾
+	1G 或 gg 			 跳转到文件的首行
+	G 			       跳转到文件的末尾行
+	复制 yy、#yy 		复制光标处的一行、#行
+	粘贴 p、P 			粘贴到光标处之后、之前
+	x 或 Delete键 		删除光标处的单个字符
+	dd、#dd 			删除光标处的一行、#行
+	d^ 				从光标处之前删除至行首
+	d$ 				从光标处删除到行尾
+[root@svr7 /]# cp /etc/passwd /opt/1.txt
+[root@svr7 /]# vim /opt/1.txt
+	/word 		向后查找字符串“word”
+	n、N 		跳至后/前一个结果
+	u 			撤销最近的一次操作
+	Ctrl + r 	取消前一次撤销操作
+	ZZ(大写) 	保存修改并退出
+末行模式操作
+        :q!                  放弃已有更改后强制退出
+        :wq 或 :x             保存已有修改后退出
+        :r /etc/filesystems  读入其他文件内容
+[root@svr7 /]# echo abc > /opt/2.txt
+[root@svr7 /]# vim  /opt/1.txt
+          :r /etc/passwd  #读入/etc/passwd到当前文件中
+字符串替换
+	:s/root/abc        替换当前行第一个“root”
+	:s/root/abc/g      替换当前行所有的“root”
+	:1,10 s/root/abc/g 替换第1-10行所有的“root”
+	:% s/root/abc/g    替换文件内所有的“root
+删除文件中所有内容 : %d  /ggdG
+ctrl+v 进入列编辑模式,向下或向上移动光标,
+把需要注释的行的开头标记起来,然后按大写的I(shift+i),再插入注释符,比如"//",再按Esc,就会全部注释了
+批量去掉注释ctrl+v,进入列编辑模式,横向选中列的个数(如"//"注释符号,需要选中两列),然后按d, 就会删除注释符号
+1G=1024M
+1M=1024K
+10G=10000M=10240000K
+10G=10240M=10240000K
+通过进程判断：
+查看进程列表并过滤  ps -ef | grep nginx
+直接查看进程id ：ps -C nginx -o pid
+通过端口查看
+查看80端口进程是否在运行 lsof -i:80 
+netstat -anp | grep :80 
+http://uc.tmooc.cn/login/jumpTologin
+ftp://192.168.4.254/rhel7/ 
+/usr/local/src
+/root/lnmp_soft/php_scripts/web_demo
+
+基本正则  兼容性强（复杂）-大部分软件支持
+^ 匹配行首
+$ 匹配行尾
+[ ] 集合，集合中的任何单个字符
+[^  ] 对集合取反
+. 匹配任意单个字符
+* 匹配前一个字符的任意数(不能单独使用)
+.* 可以匹配一切
+\{n,m\} 匹配前一个字符n到m次
+扩展正则 兼容性差（简单）
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+client-test  eth0 192.168.4.20/24
+proxy-test   eth0 192.168.4.15/24  eth1 192.168.2.25/24  
+web1-test    eth1 192.168.2.40/24
+web2-test    eth1 192.168.2.50/24
+--------------------------------------------------------------------
+alias ctest='ssh -X root@192.168.4.20'
+alias ptest1='ssh -X root@192.168.4.15'
+#alias ptest2='ssh -X root@192.168.2.25'
+alias w1test='ssh -X root@192.168.2.40'
+alias w2test='ssh -X root@192.168.2.50'
+[root@pc207 ~]# for i  in 192.168.2.40 192.168.2.50
+> do
+> scp /etc/yum.repos.d/dvd.repo root@$i:/etc/yum.repos.d/
+> done
+
+ftp://192.168.4.254/rhel7/
+
+Nginx作用： 负载均衡(调度器) 健康检查(自动)，高可用功能（集群）
+什么人，什么身份，具体什么时间，通过什么方式访问，返回什么状态
+worker_processes指令控制工作进程数：
+轮询缺点：动态网站（用户名登陆用户名和密码） 用户访问代理，需要输入用户名和密码，调度原则(轮询)  第一台机器上面登陆，刷新后，第二台机器再次登陆
+权重 两台机器性能好的，设置权重高一些
+用户认证 虚拟主机 加密https LNAP(动态网站) 地址重写，集群调度
+7层调度(http)
+4层调度(tcp/udp)
+缓存 优点 省流量，访问速度快 
+     缺点 占磁盘空间
+浏览器缓存 对多媒体文件*.mp3 *.mp4
+php-pecl-memcache  PHP 扩展模块 PHP扩展仓库
+``取命令的执行结果
+压缩 省流量
+自定义报错页面
+并发量
+用户体验
+java，php程序代码，运行脚本（消耗CPU）
+数据库（网页读取数据||消耗内存）
+nosql 增加性能   sql 增强稳定性
+https://db-engines.com/en/ranking
+redhat7 /usr/lib/systemd/system  服务启动目录
+
+PHP-FPM(FastCGI Process Manager:FastCGI进程管理器)是一个PHPFastCGI管理器,对于PHP 5.3.3之前的php来说，是一个补丁包,旨在将FastCGI进程管理整合进PHP包
+
+https://www.cnblogs.com/xiaoMzjm/p/5223799.html
+webapp ——>java+php 编写
+nginx 处理用户请求 php(解释程序代码)
+LNMP一台安装软件，运行软件，性能差，
+nginx 数据存在内存，读写速度很快，memcached操作数据库，存储session
+CPN 内容分发网络
+计算机网络功能：数据通行，资源共享，增加可靠性，提高系统能力
+网卡绑定(聚合链路)好处：数据传输可靠性更强，增加带宽，冗余，提高系统处理能力(集群) 性能强大无比的设备
+断点续传
+RPM  简单，方便  缺点：【软件旧，部分软件】 DVD 不能自定义
+源码 最新，自定义 缺点：【安装很繁琐-脚本】
+源码—>RPM
+什么是RPM
+1.数据的压缩包
+2.包含描述信息
+当接口配置trunk后[中继模式]承载所有Vlan  两台交换机才使用trunk
+show fast 0/7 switchport 查看交换机的接口状态
+切记：相同的vlan或者相同trunk才能作捆绑
+
+Nginx 升级，用户认证【HTTP基本认证(HTTP Basic Authentication)】,域名，ssl网站加密(https)
+htpasswd 是开源http服务器apache httpd的一个命令工具，用于生成 http 基本认证的密码文件。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
